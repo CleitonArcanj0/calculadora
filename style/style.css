@@ -1,0 +1,114 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F5F2F0;
+    height: 100vh;
+    display: flex;
+  
+    justify-content: center;
+    align-items: center;
+
+}
+
+.conteiner-principal {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    flex: 0 1 411px;
+
+    min-height: 300px;
+    padding: 15px;
+    margin: 20px;
+    
+  
+    
+    border-radius: 18px;
+    box-shadow: 1px 1px 15px rgb(224, 218, 218), 2px 2px 15px rgb(254, 253, 253);
+    background-color: #F5F2F0;
+}
+
+.tela {
+    display: flex;
+    flex: 1 1 98px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 15px;
+    /*talvez substitui pelo justify-content: space-evenig*/
+    border-radius: 18px;
+    background-color: #F5F2F0;
+    box-shadow: inset 1px 1px 15px rgb(224, 218, 218), 2px 2px 15px rgba(242, 238, 238, 0.446);
+}
+#resp{
+   padding: 20px;
+   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.229);
+   color: #206e8b;
+   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   font-size: 3em;
+
+}
+
+.conteiner-btn {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column wrap;
+    padding: 15px;
+
+    /*talvez substitui pelo justify-content: space-evenig*/
+    border-radius: 18px;
+    background-color: #F5F2F0;
+    box-shadow: inset 1px 1px 15px rgb(224, 218, 218), 2px 2px 15px rgba(242, 238, 238, 0.446);
+}
+
+
+
+.btn {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    flex-flow: row wrap;
+    flex: 1 1 55px;
+
+}
+
+.btn>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    width: 19%;
+    height: 80%;
+    margin: 5px;
+    outline: none;
+    border-radius: 20px;
+    background-color: #F5F2F0;
+    box-shadow: 2px 2px 10px rgba(226, 224, 224, 0.946), 1px 1px 15px rgba(0, 0, 0, 0.071);
+}
+
+.btn>div span {
+    font-weight: 500;
+    font-size: 1em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+
+}
+
+#btn-inferiores1,
+#btn-inferiores2 {
+ 
+    width: 30%;
+    
+}
+.btn>div:hover {
+    transform: scale(98%);
+    cursor: pointer;
+    box-shadow: 2px 2px 10px rgba(251, 251, 251, 0.555), 1px 1px 10px rgba(2, 15, 15, 0.165);
+}
+footer {
+    display: flex;
+
+}
