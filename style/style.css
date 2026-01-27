@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #F5F2F0;
+    background-color: #d3cccc;
     height: 100vh;
     display: flex;
   
@@ -27,7 +27,7 @@ body {
   
     
     border-radius: 18px;
-    box-shadow: 1px 1px 15px rgb(224, 218, 218), 2px 2px 15px rgb(254, 253, 253);
+    box-shadow: 1px 1px 19px rgba(110, 110, 110, 0.399);
     background-color: #F5F2F0;
 }
 

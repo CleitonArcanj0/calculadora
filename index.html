@@ -4,51 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/calculadora/style/style.css">
+    <link rel="stylesheet" href="style/style.css">
     <title>Calculadora</title>
 </head>
 
 <body>
     <div class="conteiner-principal">
         <div class="tela">
-            <span id="resp">15 + 15</span>
-
+            <span id="resp"></span>
         </div>
         <div class="conteiner-btn">
             <div class="btn">
-                <div><span>7</span></div>
-                <div><span>8</span></div>
-                <div><span>9</span></div>
-                <div><span>DEL</span></div>
+                <div class="num" onclick="capturarNum(this)">7</div>
+                <div class="num" onclick="capturarNum(this)">8</div>
+                <div class="num" onclick="capturarNum(this)">9</div>
+                <div class="num" onclick="capturarNum(this)">DEL</div>
             </div>
             <div class="btn">
-                <div><span>4</span></div>
-                <div><span>5</span></div>
-                <div><span>6</span></div>
-                <div><span>+</span></div>
+                <div class="num" onclick="capturarNum(this)">4</div>
+                <div class="num" onclick="capturarNum(this)">5</div>
+                <div class="num" onclick="capturarNum(this)">6</div>
+                <div class="num" onclick="capturarNum(this)">+</div>
             </div>
             <div class="btn">
-                <div><span>1</span></div>
-                <div><span>2</span></div>
-                <div><span>3</span></div>
-                <div><span>-</span></div>
+                <div class="num" onclick="capturarNum(this)">1</div>
+                <div class="num" onclick="capturarNum(this)">2</div>
+                <div class="num" onclick="capturarNum(this)">3</div>
+                <div class="num" onclick="capturarNum(this)">-</div>
             </div>
             <div class="btn">
-                <div><span>.</span></div>
-                <div><span>0</span></div>
-                <div><span>/</span></div>
-                <div><span>x</span></div>
+                <div class="num" onclick="capturarNum(this)">.</div>
+                <div class="num" onclick="capturarNum(this)">0</div>
+                <div class="num" onclick="capturarNum(this)">/</div>
+                <div class="num" onclick="capturarNum(this)">x</div>
             </div>
             <div class="btn">
-                <div id="btn-inferiores1"><span>RESET</span></div>
-                <div id="btn-inferiores2"><span>=</span></div>
+                <div id="btn-inferiores1" onclick="reseta()"><span>RESET</span></div>
+                <div id="btn-inferiores2" onclick="operacao()"><span>=</span></div>
             </div>
 
         </div>
     </div>
- 
-   
-   
+
+
+    <script src="js/main.js"></script>
 </body>
 
 </html>
