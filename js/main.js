@@ -1,72 +1,116 @@
-let valorAtual = '',
-    valorAnterior = [],
-    statesNum = true,
-    statesOpera = false,
-    stateDecimal = false;
 
+let states = {
+    modo: 'esperandoNumero',  /*Vai assumir valores: numero, operador ou esperando*/
+    temDecimal: false,
+    caractereDecimal: false,  /*Verifica se o último caractere foi um decimal */
+    funcao: 'permitir'
+
+};
 const capturarNum = (num) => {  //teclado
     const numero = num.innerHTML
-    states(num)
+    executa(numero)
 }
 
-const display = (num) => {
+const display = (valor) => {
     const tela = document.querySelector("#resp")
 
-    if (tela.innerHTML == 0) {
-        tela.innerText = num
+    if (tela.innerHTML == '') {
+        tela.innerText = valor
     } else {
-        tela.innerText += num
+        tela.innerText += valor
     }
+
 }
 
-const states = (num) => {
-    const valor = num.innerHTML
-    const numeros = '1234567890'
+const processaEntrada = (entrada) => {
+    const valor = entrada
+
     const operadores = ['+', '-', 'x', '/']
     const decimal = '.'
 
     let verificaOperador = operadores.filter((element) => valor == element)
     let verificaDecimal = valor == decimal ? true : false;
 
-    if (stateDecimal == true && verificaDecimal) {
-        return
-    }
 
-
-    //verifica sem tem algum operador no array, caso não tenha, o elemento é um número
     if (verificaOperador.length > 0) {
-        //impede que inicie com operador. 
-        if (valorAtual.length > 0 && statesNum == true) {
-            statesNum = false
-            statesOpera = true
-            stateDecimal = false;
-            valorAnterior.push(valorAtual)
-            valorAtual = ''
+        if (states.modo == 'operador') {
+            states.modo = 'operador'
+            states.funcao = 'substituir'
+
+        } else if (states.modo == 'numero' && states.caractereDecimal == false) {
+            states.modo = 'operador'
+            states.funcao = 'permitir'
+            states.temDecimal = false
+
         } else {
-            alert("Algo está incorreto!")
-            return
+            states.funcao = 'ignorar'
+        }
+    } else if (verificaDecimal) {
+        if (states.temDecimal == true) {
+            states.funcao = 'ignorar'
+
+        } else if (states.temDecimal == false && states.modo == 'numero') {
+            states.modo = 'numero'
+            states.temDecimal = true
+            states.caractereDecimal = true
+            states.funcao = 'permitir'
+
+        } else {
+            states.temDecimal = false
+            states.funcao = 'ignorar'
+
         }
 
     } else {
-        if (verificaDecimal) {
-            if (statesOpera == false && statesNum == true) {
-                valorAtual += valor;
-                stateDecimal = true;
-                statesNum = false;
-                statesOpera = false;
+        states.modo = 'numero'
+        states.funcao = 'permitir'
 
-            } else {
-                return
-            }
-        } else {
-            statesNum = true;
-            statesOpera = false;
-            valorAtual += valor
-
-        }
+        /*substitui o if */
+        states.caractereDecimal == true && (states.caractereDecimal = false)
 
 
     }
 
-    display(valor)
+
+    return resultado = {
+        valor: entrada,
+        modo: states.modo,
+        decimal: states.temDecimal,
+        decimalPendende: states.caractereDecimal,
+        funcao: states.funcao
+    };
+
+}
+
+const executa = (valor) => {
+    const entrada = processaEntrada(valor)
+
+    if (entrada.decimal == true && entrada.funcao == 'ignorar' || entrada.decimal == false && entrada.funcao == 'ignorar') {
+        return
+    }
+
+    if (entrada.modo == 'operador') {
+        if (entrada.funcao == 'permitir') {
+            display(entrada.valor)
+
+        } else if (entrada.funcao == 'substituir') {
+
+            const tela = document.querySelector("#resp")
+            let mudarOperador = tela.innerHTML.split('')
+            let idx = mudarOperador.length
+            mudarOperador[idx - 1] = entrada.valor
+            tela.innerText = mudarOperador.join('')
+            return
+
+        } else {
+            return
+        }
+
+    } else if (entrada.decimal == true && entrada.funcao == 'permitir') {
+        display(entrada.valor)
+
+    } else {
+        display(entrada.valor)
+
+    }
 }
