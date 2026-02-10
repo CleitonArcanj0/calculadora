@@ -1,13 +1,16 @@
 
 let states = {
-    modo: 'esperandoNumero',  /*Vai assumir valores: numero, operador ou esperando*/
+    modo: 'esperandoNumero',
     temDecimal: false,
-    caractereDecimalPendente: true,  /*Verifica se o último caractere foi um decimal */
-    funcao: 'permitir'
+    caractereDecimalPendente: true,
+    funcao: 'permitir',
+    resultado: false,
+    errorDisplay: false
+
 
 };
 
-const capturarNum = (num) => {  //teclado
+const capturarNum = (num) => {
     const numero = num.innerHTML
     executa(numero)
 }
@@ -33,20 +36,21 @@ const processaEntrada = (entrada) => {
     let verificaDecimal = valor == decimal ? true : false;
 
 
-    if (verificaOperador.length > 0) {
-        if (states.modo == 'operador') {
+    if (verificaOperador.length > 0 ) {
+        if (states.modo == 'operador' ) {
             states.modo = 'operador'
             states.funcao = 'substituir'
 
-        } else if (states.modo == 'numero' && states.caractereDecimalPendente == true) {
+        } else if (states.modo == 'numero' && states.caractereDecimalPendente == true && states.errorDisplay == false) {
             states.modo = 'operador'
             states.funcao = 'permitir'
             states.temDecimal = false
+            states.resultado = false
 
         } else {
             states.funcao = 'ignorar'
         }
-    } else if (verificaDecimal) {
+    } else if (verificaDecimal && states.errorDisplay == false) {
         if (states.temDecimal == true) {
             states.funcao = 'ignorar'
 
@@ -68,8 +72,8 @@ const processaEntrada = (entrada) => {
 
         /*substitui o if */
         states.caractereDecimalPendente == false && (states.caractereDecimalPendente = true)
-
-
+        states.resultado == true && (states.resultado = false, states.funcao = 'limparEadicionar')
+        states.errorDisplay == true && (states.errorDisplay = false, states.funcao = 'limparEadicionar')
     }
 
 
@@ -78,7 +82,8 @@ const processaEntrada = (entrada) => {
         modo: states.modo,
         decimal: states.temDecimal,
         decimalPendende: states.caractereDecimalPendente,
-        funcao: states.funcao
+        funcao: states.funcao,
+        resultado: states.resultado
     };
 
 }
@@ -111,7 +116,14 @@ const executa = (valor) => {
         display(entrada.valor)
 
     } else {
-        display(entrada.valor)
+
+        if (entrada.funcao == 'limparEadicionar') {
+            const tela = document.querySelector("#resp").innerHTML = ''
+            display(entrada.valor)
+
+        } else {
+            display(entrada.valor)
+        }
 
     }
 }
@@ -122,7 +134,7 @@ const formatarExpressao = () => {
     const elementosExpressao = []
 
 
-    if (states.modo == 'operador' || states.caractereDecimalPendente == false) {
+    if (states.modo == 'operador' || states.caractereDecimalPendente == false || states.errorDisplay || !expressao) {
         return
     }
 
@@ -165,6 +177,7 @@ const formatarExpressao = () => {
     }
     executaExpressao(expressaoReversa)
 }
+
 const executaExpressao = (expressao) => {
     const operacao = {
         "+": (a, b) => a + b,
@@ -189,11 +202,14 @@ const executaExpressao = (expressao) => {
                 stack.push(resultado)
             } else {
                 stack.push('ERROR')
+                states.errorDisplay = true
             }
 
         }
     })
+    states.resultado = true
     document.querySelector("#resp").innerHTML = ''
+
     display(stack[0])
 
 }
