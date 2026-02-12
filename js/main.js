@@ -36,8 +36,8 @@ const processaEntrada = (entrada) => {
     let verificaDecimal = valor == decimal ? true : false;
 
 
-    if (verificaOperador.length > 0 ) {
-        if (states.modo == 'operador' ) {
+    if (verificaOperador.length > 0) {
+        if (states.modo == 'operador') {
             states.modo = 'operador'
             states.funcao = 'substituir'
 
@@ -51,14 +51,14 @@ const processaEntrada = (entrada) => {
             states.funcao = 'ignorar'
         }
     } else if (verificaDecimal && states.errorDisplay == false) {
-        if (states.temDecimal == true) {
+        if (states.temDecimal == true || states.resultado == true) {
             states.funcao = 'ignorar'
 
         } else if (states.temDecimal == false && states.modo == 'numero') {
             states.modo = 'numero'
             states.temDecimal = true
             states.caractereDecimalPendente = false
-            states.funcao = 'permitir'
+            states.funcao = 'permitir'  
 
         } else {
             states.temDecimal = false
@@ -212,4 +212,15 @@ const executaExpressao = (expressao) => {
 
     display(stack[0])
 
+}
+
+const reseta = () => {
+    states.modo = 'esperandoNumero'
+    states.funcao = 'permitir'
+    states.temDecimal = false
+    states.caractereDecimalPendente = true
+    states.resultado = false
+    states.errorDisplay = false
+
+    document.querySelector("#resp").innerHTML = ''
 }
