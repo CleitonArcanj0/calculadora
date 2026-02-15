@@ -58,7 +58,7 @@ const processaEntrada = (entrada) => {
             states.modo = 'numero'
             states.temDecimal = true
             states.caractereDecimalPendente = false
-            states.funcao = 'permitir'  
+            states.funcao = 'permitir'
 
         } else {
             states.temDecimal = false
@@ -91,7 +91,7 @@ const processaEntrada = (entrada) => {
 const executa = (valor) => {
     const entrada = processaEntrada(valor)
 
-    if (entrada.decimal == true && entrada.funcao == 'ignorar' || entrada.decimal == false && entrada.funcao == 'ignorar') {
+    if (entrada.decimal == true && entrada.funcao == 'ignorar' || entrada.decimal == false && entrada.funcao == 'ignorar' || entrada.errorDisplay == true) {
         return
     }
 
@@ -223,4 +223,84 @@ const reseta = () => {
     states.errorDisplay = false
 
     document.querySelector("#resp").innerHTML = ''
+}
+
+const apagarCaractere = () => {
+
+    if (states.errorDisplay == true) {
+        reseta()
+        return
+    }
+
+    const tela = document.querySelector("#resp")
+    let mudarOperador = tela.innerHTML.split('')
+    mudarOperador.pop()
+    let idx = mudarOperador.length
+
+
+    const operadores = ['+', '-', 'x', '/']
+    const decimal = '.'
+    const verificaOperador = operadores.filter((element) => element == mudarOperador[idx - 1])
+    const verificaDecimal = mudarOperador[idx - 1] == decimal ? true : false
+
+
+
+    if (verificaOperador.length > 0) {
+        states.modo = 'operador'
+        states.funcao = 'permitir'
+        states.temDecimal = false
+        states.caractereDecimalPendente = true
+        states.resultado = false
+    } else if (verificaDecimal) {
+        states.modo = 'numero'
+        states.temDecimal = true
+        states.caractereDecimalPendente = false
+        states.funcao = 'permitir'
+        states.resultado = false
+
+    } else {
+        if (idx == 0) {
+            states.modo = 'esperandoNumero'
+            states.temDecimal = false
+            states.caractereDecimalPendente = true
+            states.funcao = 'permitir'
+            states.resultado = false
+            states.errorDisplay = false
+
+        } else {
+            states.modo = 'numero'
+            states.funcao = 'permitir'
+            states.resultado = false
+            states.caractereDecimalPendente = true
+
+            const idxOperador = mudarOperador.findLastIndex(element => operadores.includes(element))
+
+            if (idxOperador != -1) {
+                const newArr = mudarOperador.slice(idxOperador + 1)
+                const arr_decimal = newArr.findIndex(element => element == decimal)
+
+                if (arr_decimal != -1) {
+                    states.temDecimal = true
+                } else {
+                    states.temDecimal = false
+                }
+
+            } else {
+                const arr_decimal = mudarOperador.findIndex(element => element == decimal)
+
+                if (arr_decimal != -1) {
+                    states.temDecimal = true
+
+                } else {
+                    states.temDecimal = false
+                }
+
+            }
+
+        }
+
+    }
+
+    tela.innerText = mudarOperador.join('')
+
 }
