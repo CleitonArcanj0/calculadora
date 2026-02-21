@@ -6,8 +6,6 @@ let states = {
     funcao: 'permitir',
     resultado: false,
     errorDisplay: false
-
-
 };
 
 const capturarNum = (num) => {
@@ -83,7 +81,8 @@ const processaEntrada = (entrada) => {
         decimal: states.temDecimal,
         decimalPendende: states.caractereDecimalPendente,
         funcao: states.funcao,
-        resultado: states.resultado
+        resultado: states.resultado,
+        errorDisplay: states.errorDisplay
     };
 
 }
@@ -156,27 +155,47 @@ const formatarExpressao = () => {
 
     const expressaoReversa = []
     const operadores = []
-    let marcaNum = 0
+    const precedencia = {
+        "+": 1,
+        "-": 1,
+        "*": 2,
+        "/": 2
+    }
+
 
     elementosExpressao.forEach(element => {
         if (String(element).match(/[+x*/-]/)) {
-            operadores.push(element)
 
+            if (operadores.length > 0) {
+                if (precedencia[operadores[operadores.length - 1]] >= precedencia[element]) {
+                    do {
+                        expressaoReversa.push(operadores.pop())
+
+                        if(operadores.length == 0){
+                            break;
+                        }
+                    } while (precedencia[operadores[operadores.length - 1]] >= precedencia[element]);
+
+                    operadores.push(element)
+                } else {
+                    operadores.push(element)
+                }
+            } else {
+                operadores.push(element)
+            }
         } else {
             expressaoReversa.push(element)
-            marcaNum++
-            if (operadores.length > 0 && marcaNum > 0) {
-                expressaoReversa.push(operadores.pop())
-                marcaNum = 0
 
-            }
         }
     })
+
     while (operadores.length > 0) {
         expressaoReversa.push(operadores.pop())
+
     }
     executaExpressao(expressaoReversa)
 }
+
 
 const executaExpressao = (expressao) => {
     const operacao = {
