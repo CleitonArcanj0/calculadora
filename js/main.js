@@ -19,10 +19,8 @@ const display = (valor) => {
     if (tela.innerHTML == '') {
         tela.innerText = valor
     } else {
-
         tela.innerText += valor
     }
-
 }
 
 const processaEntrada = (entrada) => {
@@ -32,7 +30,6 @@ const processaEntrada = (entrada) => {
 
     let verificaOperador = operadores.filter((element) => valor == element)
     let verificaDecimal = valor == decimal ? true : false;
-
 
     if (verificaOperador.length > 0) {
         if (states.modo == 'operador') {
@@ -74,7 +71,6 @@ const processaEntrada = (entrada) => {
         states.errorDisplay == true && (states.errorDisplay = false, states.funcao = 'limparEadicionar')
     }
 
-
     return resultado = {
         valor: entrada,
         modo: states.modo,
@@ -84,7 +80,6 @@ const processaEntrada = (entrada) => {
         resultado: states.resultado,
         errorDisplay: states.errorDisplay
     };
-
 }
 
 const executa = (valor) => {
@@ -132,11 +127,9 @@ const formatarExpressao = () => {
     const expressao = tela.match(/\d+[.]\d+|\d+|[+x*/-]/g)
     const elementosExpressao = []
 
-
     if (states.modo == 'operador' || states.caractereDecimalPendente == false || states.errorDisplay || !expressao) {
         return
     }
-
 
     expressao.forEach(element => {
         if (element.match(/\d+[.]\d+|\d+/)) {
@@ -161,7 +154,6 @@ const formatarExpressao = () => {
         "*": 2,
         "/": 2
     }
-
 
     elementosExpressao.forEach(element => {
         if (String(element).match(/[+x*/-]/)) {
@@ -195,7 +187,6 @@ const formatarExpressao = () => {
     }
     executaExpressao(expressaoReversa)
 }
-
 
 const executaExpressao = (expressao) => {
     const operacao = {
@@ -270,6 +261,7 @@ const apagarCaractere = () => {
         states.temDecimal = false
         states.caractereDecimalPendente = true
         states.resultado = false
+
     } else if (verificaDecimal) {
         states.modo = 'numero'
         states.temDecimal = true
@@ -313,13 +305,9 @@ const apagarCaractere = () => {
                 } else {
                     states.temDecimal = false
                 }
-
             }
-
         }
-
     }
-
+    
     tela.innerText = mudarOperador.join('')
-
 }

@@ -10,39 +10,28 @@
 
 <body>
     <div class="conteiner-principal">
-        <div class="tela">
-            <span id="resp"></span>
-        </div>
-        <div class="conteiner-btn">
-            <div class="btn">
-                <div class="num" onclick="capturarNum(this)">7</div>
-                <div class="num" onclick="capturarNum(this)">8</div>
-                <div class="num" onclick="capturarNum(this)">9</div>
-                <div class="num" onclick="apagarCaractere()">DEL</div>
+        <div class="card-calculadora">
+            <div class="tela">
+                <span id="resp"></span>
             </div>
-            <div class="btn">
-                <div class="num" onclick="capturarNum(this)">4</div>
-                <div class="num" onclick="capturarNum(this)">5</div>
-                <div class="num" onclick="capturarNum(this)">6</div>
-                <div class="num" onclick="capturarNum(this)">+</div>
-            </div>
-            <div class="btn">
-                <div class="num" onclick="capturarNum(this)">1</div>
-                <div class="num" onclick="capturarNum(this)">2</div>
-                <div class="num" onclick="capturarNum(this)">3</div>
-                <div class="num" onclick="capturarNum(this)">-</div>
-            </div>
-            <div class="btn">
-                <div class="num" onclick="capturarNum(this)">.</div>
-                <div class="num" onclick="capturarNum(this)">0</div>
-                <div class="num" onclick="capturarNum(this)">/</div>
-                <div class="num" onclick="capturarNum(this)">x</div>
-            </div>
-            <div class="btn">
-                <div id="btn-inferiores1" onclick="reseta()"><span>RESET</span></div>
-                <div id="btn-inferiores2" onclick="formatarExpressao()">=</div>
-            </div>
-
+            <div class="num btn" onclick="capturarNum(this)">7</div>
+            <div class="num btn" onclick="capturarNum(this)">8</div>
+            <div class="num btn" onclick="capturarNum(this)">9</div>
+            <div class="operador btn" onclick="capturarNum(this)">x</div>
+            <div class="num btn" onclick="capturarNum(this)">4</div>
+            <div class="num btn" onclick="capturarNum(this)">5</div>
+            <div class="num btn" onclick="capturarNum(this)">6</div>
+            <div class="operador btn" onclick="capturarNum(this)">+</div>
+            <div class="num btn" onclick="capturarNum(this)">1</div>
+            <div class="num btn" onclick="capturarNum(this)">2</div>
+            <div class="num btn" onclick="capturarNum(this)">3</div>
+            <div class="operador btn" onclick="capturarNum(this)">-</div>
+            <div class="num btn" onclick="capturarNum(this)">.</div>
+            <div id="zero" class="num btn" onclick="capturarNum(this)">0</div>
+            <div id="btn-igual" class="btn" onclick="formatarExpressao()">=</div>
+            <div class="operador btn" onclick="capturarNum(this)">/</div>
+            <div id="allClear" class="btn" onclick="reseta()"><span>AC</span></div>
+            <div id="clear"  class="btn" onclick="apagarCaractere()">C</div>
         </div>
     </div>
 
