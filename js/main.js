@@ -19,8 +19,13 @@ const display = (valor) => {
     if (tela.innerHTML == '') {
         tela.innerText = valor
     } else {
-        tela.innerText += valor
+        tela.innerText += valor 
     }
+    moveScreen()
+}
+function moveScreen(){
+    const screen = document.querySelector(".tela")
+    screen.scrollLeft = screen.scrollWidth - screen.clientWidth
 }
 
 const processaEntrada = (entrada) => {
@@ -163,7 +168,7 @@ const formatarExpressao = () => {
                     do {
                         expressaoReversa.push(operadores.pop())
 
-                        if(operadores.length == 0){
+                        if (operadores.length == 0) {
                             break;
                         }
                     } while (precedencia[operadores[operadores.length - 1]] >= precedencia[element]);
@@ -308,6 +313,6 @@ const apagarCaractere = () => {
             }
         }
     }
-    
+
     tela.innerText = mudarOperador.join('')
 }
