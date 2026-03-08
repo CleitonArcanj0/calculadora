@@ -101,6 +101,7 @@ const processaEntrada = (entrada) => {
         states.modo = 'numero'
         states.funcao = 'permitir'
 
+
         /*substitui o if */
         states.flag_Unario == true && (states.flag_Unario = false)
         states.caractereDecimalPendente == false && (states.caractereDecimalPendente = true)
@@ -113,6 +114,7 @@ const processaEntrada = (entrada) => {
         modo: states.modo,
         decimal: states.temDecimal,
         decimalPendende: states.caractereDecimalPendente,
+        flagUnario: states.flag_Unario,
         funcao: states.funcao,
         resultado: states.resultado,
         errorDisplay: states.errorDisplay
@@ -122,7 +124,7 @@ const processaEntrada = (entrada) => {
 const executa = (valor) => {
     const entrada = processaEntrada(valor)
 
-    if (entrada.decimal == true && entrada.funcao == 'ignorar' || entrada.decimal == false && entrada.funcao == 'ignorar' || entrada.errorDisplay == true) {
+    if (entrada.decimal == true && entrada.funcao == 'ignorar' || entrada.decimal == false && entrada.funcao == 'ignorar' || entrada.flagUnario == true && entrada.funcao == 'ignorar' || entrada.errorDisplay == true) {
         return
     }
 
@@ -147,7 +149,6 @@ const executa = (valor) => {
         display(entrada.valor)
 
     } else {
-
         if (entrada.funcao == 'limparEadicionar') {
             const tela = document.querySelector("#resp").innerHTML = ''
             display(entrada.valor)
@@ -161,27 +162,38 @@ const executa = (valor) => {
 
 const formatarExpressao = () => {
     const tela = document.querySelector("#resp").innerText
-    const expressao = tela.match(/\d+[.]\d+|\d+|[+x*/-]/g)
     const elementosExpressao = []
+    let acumulador = ''
 
-    if (states.modo == 'operador' || states.caractereDecimalPendente == false || states.errorDisplay || !expressao) {
+    if (states.modo == 'operador' || states.caractereDecimalPendente == false || states.errorDisplay) {
         return
     }
+    for (let i = 0; i < tela.length; i++) {
+        let caractere = tela[i]
+        let prox_caractere = tela[i + 1]
 
-    expressao.forEach(element => {
-        if (element.match(/\d+[.]\d+|\d+/)) {
-            elementosExpressao.push(Number(element))
+        if (/[0-9.]/.test(caractere) ||
+            (caractere === '-' && acumulador === "" && (elementosExpressao.length === 0 || /[x*/]/.test(elementosExpressao[elementosExpressao.length - 1])) && /[0-9]/.test(prox_caractere))) {
+            acumulador += caractere
 
-        } else if (element.match(/[+x*/-]/)) {
-            if (element == "x") {
-                element = '*'
-                elementosExpressao.push(element)
+        } else {
+            acumulador !== '' && (elementosExpressao.push(Number(acumulador)), acumulador = '')
+            if ("+x*/-".includes(caractere)) {
+                if (caractere === "x") {
+                    caractere = '*'
+                    elementosExpressao.push(caractere)
 
-            } else {
-                elementosExpressao.push(element)
+                } else {
+                    elementosExpressao.push(caractere)
+                }
+                acumulador !== '' && (elementosExpressao.push(Number(acumulador)))
             }
         }
-    });
+
+    }
+    if (acumulador) {
+        elementosExpressao.push(Number(acumulador))
+    }
 
     const expressaoReversa = []
     const operadores = []
@@ -191,10 +203,8 @@ const formatarExpressao = () => {
         "*": 2,
         "/": 2
     }
-
     elementosExpressao.forEach(element => {
-        if (String(element).match(/[+x*/-]/)) {
-
+        if (String(element).match(/[-+*/](?!\d)/g)) {
             if (operadores.length > 0) {
                 if (precedencia[operadores[operadores.length - 1]] >= precedencia[element]) {
                     do {
