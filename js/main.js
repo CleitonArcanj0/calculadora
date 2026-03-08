@@ -1,4 +1,3 @@
-
 let states = {
     modo: 'esperandoNumero',
     temDecimal: false,
@@ -35,21 +34,28 @@ const processaEntrada = (entrada) => {
     const operadores = ['+', '-', 'x', '/']
     const decimal = '.'
 
-    let verificaOperador = operadores.filter((element) => valor == element)
-    let multiplicadorOrDivisor = ['x', '/'].filter((element) => verificaOperador == element)
-    let binarioOrUnario = ['-'].filter((element) => valor == element)
+    let verificaOperador = operadores.includes(valor)
+    let multiplicadorOrDivisor = ['x', '/'].includes(valor)
+    let binarioOrUnario = ['-'].includes(valor)
     let verificaDecimal = valor == decimal ? true : false;
 
-    if (verificaOperador.length > 0) {
+    if(states.modo == 'esperandoNumero' && binarioOrUnario == false ){
+        states.funcao = 'ignorar'
+     
+    }
+
+    if (verificaOperador == true) {
         if (states.modo == 'operador') {
 
-            if (states.flag_mul_div == true && binarioOrUnario.length > 0) {
+            if (states.flag_mul_div == true && binarioOrUnario == true) { /**/
                 states.modo = 'esperandoNumero'
                 states.funcao = 'permitir'
+                states.flag_Unario = true
+
             } else {
                 states.modo = 'operador'
                 states.funcao = 'substituir'
-                multiplicadorOrDivisor.length > 0 ? states.flag_mul_div = true : states.flag_mul_div = false
+                states.flag_mul_div = multiplicadorOrDivisor
             }
 
         } else if (states.modo == 'numero' && states.caractereDecimalPendente == true && states.errorDisplay == false) {
@@ -57,14 +63,15 @@ const processaEntrada = (entrada) => {
             states.funcao = 'permitir'
             states.temDecimal = false
             states.resultado = false
-            multiplicadorOrDivisor.length > 0 && (states.flag_mul_div = true)
+            states.flag_Unario = false
+            multiplicadorOrDivisor == true && (states.flag_mul_div = true)
 
-        } else if (states.modo == 'esperandoNumero' && binarioOrUnario.length > 0) {
-            if(states.funcao == 'permitir' && states.flag_Unario == true){
-               states.modo = 'esperandoNumero'
-               states.funcao = 'ignorar'
-        
-            }else {
+        } else if (states.modo == 'esperandoNumero' && binarioOrUnario == true) {
+            if (states.flag_Unario == true) {
+                states.modo = 'esperandoNumero'
+                states.funcao = 'ignorar'
+
+            } else {
                 states.modo = 'esperandoNumero'
                 states.funcao = 'permitir'
                 states.flag_Unario = true
@@ -74,7 +81,7 @@ const processaEntrada = (entrada) => {
         } else {
             states.funcao = 'ignorar'
         }
-        
+
     } else if (verificaDecimal && states.errorDisplay == false) {
         if (states.temDecimal == true || states.resultado == true) {
             states.funcao = 'ignorar'
