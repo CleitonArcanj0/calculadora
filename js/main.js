@@ -39,9 +39,9 @@ const processaEntrada = (entrada) => {
     let binarioOrUnario = ['-'].includes(valor)
     let verificaDecimal = valor == decimal ? true : false;
 
-    if(states.modo == 'esperandoNumero' && binarioOrUnario == false ){
+    if (states.modo == 'esperandoNumero' && binarioOrUnario == false) {
         states.funcao = 'ignorar'
-     
+
     }
 
     if (verificaOperador == true) {
@@ -278,7 +278,8 @@ const reseta = () => {
     states.caractereDecimalPendente = true
     states.resultado = false
     states.errorDisplay = false
-
+    states.flag_mul_div = false
+    states.flag_Unario = false
     document.querySelector("#resp").innerHTML = ''
 }
 
