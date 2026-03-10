@@ -291,70 +291,14 @@ const apagarCaractere = () => {
     }
 
     const tela = document.querySelector("#resp")
-    let mudarOperador = tela.innerHTML.split('')
-    mudarOperador.pop()
-    let idx = mudarOperador.length
+    const expressao = tela.innerHTML.split('')
+    expressao.pop()
+    reseta()
 
-
-    const operadores = ['+', '-', 'x', '/']
-    const decimal = '.'
-    const verificaOperador = operadores.filter((element) => element == mudarOperador[idx - 1])
-    const verificaDecimal = mudarOperador[idx - 1] == decimal ? true : false
-
-
-    if (verificaOperador.length > 0) {
-        states.modo = 'operador'
-        states.funcao = 'permitir'
-        states.temDecimal = false
-        states.caractereDecimalPendente = true
-        states.resultado = false
-
-    } else if (verificaDecimal) {
-        states.modo = 'numero'
-        states.temDecimal = true
-        states.caractereDecimalPendente = false
-        states.funcao = 'permitir'
-        states.resultado = false
-
-    } else {
-        if (idx == 0) {
-            states.modo = 'esperandoNumero'
-            states.temDecimal = false
-            states.caractereDecimalPendente = true
-            states.funcao = 'permitir'
-            states.resultado = false
-            states.errorDisplay = false
-
-        } else {
-            states.modo = 'numero'
-            states.funcao = 'permitir'
-            states.resultado = false
-            states.caractereDecimalPendente = true
-
-            const idxOperador = mudarOperador.findLastIndex(element => operadores.includes(element))
-
-            if (idxOperador != -1) {
-                const newArr = mudarOperador.slice(idxOperador + 1)
-                const arr_decimal = newArr.findIndex(element => element == decimal)
-
-                if (arr_decimal != -1) {
-                    states.temDecimal = true
-                } else {
-                    states.temDecimal = false
-                }
-
-            } else {
-                const arr_decimal = mudarOperador.findIndex(element => element == decimal)
-
-                if (arr_decimal != -1) {
-                    states.temDecimal = true
-
-                } else {
-                    states.temDecimal = false
-                }
-            }
-        }
+    for (let i = 0; i < expressao.length; i++) {
+        const entrada = expressao[i]
+        processaEntrada(entrada)
     }
-
-    tela.innerText = mudarOperador.join('')
+    
+    tela.innerText = expressao.join('')
 }
